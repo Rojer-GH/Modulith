@@ -14,7 +14,7 @@ add_subdirectory(glm)
 add_library(glm_header INTERFACE)
 target_include_directories(glm_header INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/glm/)
 
-add_subdirectory(yaml-cpp)
+#add_subdirectory(yaml-cpp)
 
 add_subdirectory(imgui)
 

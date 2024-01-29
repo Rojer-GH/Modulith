@@ -1,16 +1,35 @@
 # Root CMakeLists
-cmake_minimum_required(VERSION 3.13)
+cmake_minimum_required(VERSION 3.16)
 
-set(CMAKE_CXX_STANDARD 17)
-add_compile_options(/MP)
+#[[
+	Macro that wraps a call to include(), to check if the file exists. Additional values can be passed, which will be printed as error messages
 
-project(Modulith
-        VERSION 1.0.0
-        DESCRIPTION "A modular game engine for component-driven development and modding"
-        LANGUAGES CXX C)
+	@param file: The file to include
+]]
+macro(include_throw_error FILE)
+    include(
+            ${FILE}
+            RESULT_VARIABLE ${FILE}_file
+    )
+    if(${FILE} STREQUAL NOTFOUND)
+        message(FATAL_ERROR "${FILE} not found! ${ARGN}")
+    endif()
+endmacro(include_throw_error)
 
-set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/extern/cotire")
-include(cotire)
+set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
+
+include_throw_error(constants "The constants file was not found. It includes all the \"constants\" that are needed for project setup")
+
+include_throw_error(setup "The setup code takes responsibility for the most basic settings")
+
+project(${MODULITH_PROJECT_NAME}
+        VERSION ${MODULITH_PROJECT_VERSION}
+        DESCRIPTION ${MODULITH_PROJECT_DESCRIPTION}
+        LANGUAGES ${MODULITH_PROJECT_LANGUAGES})
+
+include_throw_error(functions "A file containing useful functions")
+
+include_throw_error(packages "The packages-file contains all the external packages that are needed")
 
 find_package(Doxygen)
 if(Doxygen_FOUND)

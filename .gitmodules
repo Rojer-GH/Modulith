@@ -20,3 +20,6 @@
 [submodule "code/extern/crossguid"]
 	path = code/extern/crossguid
 	url = https://github.com/graeme-hill/crossguid.git
+[submodule "code/vcpkg"]
+	path = code/vcpkg
+	url = https://github.com/microsoft/vcpkg
