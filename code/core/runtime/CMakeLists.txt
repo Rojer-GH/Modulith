@@ -2,10 +2,6 @@
 
 add_executable(ModulithRuntime src/Runtime.cpp src/Runtime.h)
 
-target_link_libraries(ModulithRuntime PRIVATE ModulithEngine)
+target_link_libraries(ModulithRuntime PRIVATE common ModulithEngine)
 
-set(OutputDirectory ${PROJECT_SOURCE_DIR}/build/)
-
-add_custom_command(TARGET ModulithRuntime POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:ModulithRuntime> ${OutputDirectory}/ModulithRuntime.exe
-        )
+MODULITH_COPY_FILE_TO_OUTPUT(ModulithRuntime $<TARGET_FILE:ModulithRuntime> ModulithRuntime.exe)

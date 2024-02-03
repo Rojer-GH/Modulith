@@ -38,7 +38,10 @@ else()
     message(STATUS "Doxygen not found, not building docs")
 endif()
 
+add_library(common INTERFACE)
+
+target_compile_definitions(common INTERFACE GLM_ENABLE_EXPERIMENTAL)
 
 add_subdirectory(core)
 add_subdirectory(modules)
-add_subdirectory(extern)
+#add_subdirectory(extern)

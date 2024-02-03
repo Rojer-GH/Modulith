@@ -58,7 +58,7 @@
 
 // Boolinq
 
-#include <utils/boolinq/boolinq.h>
+#include <boolinq/boolinq.h>
 
 // Yaml
 

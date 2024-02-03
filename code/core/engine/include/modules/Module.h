@@ -7,6 +7,7 @@
 
 #include "Core.h"
 #include <crossguid/guid.hpp>
+#include <spdlog/fmt/ostr.h>
 
 namespace modulith {
 
@@ -60,6 +61,9 @@ inline std::ostream& operator<<(std::ostream& os, const modulith::Module& module
 {
     return os << module.Name() << " (" << module.Guid().str() << ")";
 }
+
+//template<>
+//struct fmt::formatter<modulith::Module> : ostream_formatter {};
 
 namespace std {
 

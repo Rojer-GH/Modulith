@@ -6,7 +6,7 @@
 # pragma once
 
 #include "Core.h"
-#include <utils/boolinq/boolinq.h>
+#include <boolinq/boolinq.h>
 #include <Subcontext.h>
 #include "modules/resources/ModuleResources.h"
 #include "utils/DependencyGraph.h"

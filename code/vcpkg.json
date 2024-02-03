@@ -1,7 +1,23 @@
 {
   "name": "modulith",
   "version-string": "1.0.0",
+  "builtin-baseline": "7032c5759f823fc8699a5c37d5f7072464ccb9a8",
   "dependencies": [
+    "assimp",
+    "boolinq",
+    "catch-classic",
+    "crossguid",
+    "glm",
+    {"name": "imgui",
+      "features": ["docking-experimental", "glfw-binding", "opengl3-glad-binding"]
+    },
+    "spdlog",
+    "stb",
     "yaml-cpp"
+  ],
+  "overrides": [
+    {"name": "fmt", "version": "6.0.0#0"},
+    {"name": "spdlog", "version": "1.6.1#0"},
+    {"name": "imgui", "version": "1.83#0"}
   ]
 }

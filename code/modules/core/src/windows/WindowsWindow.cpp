@@ -6,7 +6,7 @@
 
 #include <opengl/OpenGLContext.h>
 #include <imgui.h>
-#include <examples/imgui_impl_glfw.h>
+#include <imgui_impl_glfw.h>
 #include "WindowsWindow.h"
 
 namespace modulith{
