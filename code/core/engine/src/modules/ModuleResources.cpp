@@ -9,6 +9,7 @@
 #include <modules/ModulePathUtils.h>
 #include <utils/PreferencesContext.h>
 #include "Context.h"
+#include "windows.h"
 
 namespace modulith {
 

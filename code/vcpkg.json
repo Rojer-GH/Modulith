@@ -7,17 +7,20 @@
     "boolinq",
     "catch-classic",
     "crossguid",
+    "glad",
+    "glfw3",
     "glm",
     {"name": "imgui",
-      "features": ["docking-experimental", "glfw-binding", "opengl3-glad-binding"]
+      "features": ["docking-experimental", "opengl3-glad-binding", "glfw-binding"]
     },
+    "opengl",
     "spdlog",
     "stb",
     "yaml-cpp"
   ],
   "overrides": [
-    {"name": "fmt", "version": "6.0.0#0"},
     {"name": "spdlog", "version": "1.6.1#0"},
-    {"name": "imgui", "version": "1.83#0"}
+    {"name": "imgui", "version": "1.83#0"},
+    {"name": "fmt", "version": "6.0.0#0"}
   ]
 }

@@ -52,15 +52,15 @@ macro(MODULITH_INIT_MODULE NAME)
     string(TIMESTAMP NOW "%Y-%m-%d %H-%M-%S")
     set_target_properties(${NAME} PROPERTIES PDB_NAME "${NAME} ${NOW}")
 
-    target_include_directories(${NAME} PUBLIC ${MODULITH_MODDING_DIRECTORY}/include/)
-    target_include_directories(${NAME} PUBLIC include/ ${Stb_INCLUDE_DIR})
+    target_include_directories(${NAME} PRIVATE ${MODULITH_MODDING_DIRECTORY}/include/)
+    target_include_directories(${NAME} PRIVATE include/ ${Stb_INCLUDE_DIR})
     target_include_directories(${NAME} PRIVATE src/)
 
     foreach(toLink IN ITEMS ${LinkingDependencies})
         target_link_libraries(${NAME} PRIVATE "${MODULITH_MODDING_DIRECTORY}/${toLink}.lib")
     endforeach()
 
-    target_link_libraries(${NAME} PUBLIC common ${MODULITH_FMT_TARGET})
+    target_link_libraries(${NAME} PRIVATE common ${MODULITH_FMT_TARGET})
 
     MODULITH_COPY_FILE_TO_MODULES(${NAME} $<TARGET_FILE:${NAME}> ${NAME}/${NAME}_hotloadable.dll)
     MODULITH_COPY_FILE_TO_MODULES(${NAME} $<TARGET_LINKER_FILE:${NAME}>
@@ -70,6 +70,7 @@ macro(MODULITH_INIT_MODULE NAME)
         MODULITH_COPY_DIR_TO_MODULES(${NAME} ${CMAKE_CURRENT_SOURCE_DIR}/include/ ${NAME}/modding/include/)
     endif()
 
+    #target_compile_definitions(${NAME} PUBLIC SPDLOG_COMPILED_LIB)
     target_compile_definitions(${NAME} PRIVATE EXPORT_$<UPPER_CASE:${NAME}>_MODULE)
 endmacro(MODULITH_INIT_MODULE NAME)
 
@@ -77,18 +78,20 @@ macro(MODULITH_LINK_TO_MODULES NAME)
     foreach(dependency IN ITEMS ${ARGN})
         file(GLOB ModuleLinkingDependencies CONFIGURE_DEPENDS "${MODULITH_MODULES_DIRECTORY}/${dependency}/modding/**.lib")
         foreach(toLink IN ITEMS ${ModuleLinkingDependencies})
-            target_link_libraries(${NAME} PRIVATE ${${toLink}_TARGET})
+            target_link_libraries(${NAME} PRIVATE ${toLink})
         endforeach()
-        target_include_directories(${NAME} PRIVATE ${MODULITH_MODULES_DIRECTORY}/${dependency}/modding/include/)
+        target_include_directories(${NAME} PUBLIC ${MODULITH_MODULES_DIRECTORY}/${dependency}/modding/include/)
     endforeach()
 endmacro(MODULITH_LINK_TO_MODULES NAME)
 
 macro(MODULITH_LINK_TO_LIBS NAME TYPE)
     foreach(toLink IN ITEMS ${ARGN})
         target_link_libraries(${NAME} ${TYPE} ${MODULITH_${toLink}_TARGET})
-        #MODULITH_COPY_FILE_TO_MODULES(${NAME} $<TARGET_FILE:${MODULITH_${toLink}_TARGET}>
-        #        ${NAME}/${MODULITH_${toLink}}.dll)
-        #MODULITH_COPY_FILE_TO_MODULES(${NAME} $<TARGET_LINKER_FILE:${MODULITH_${toLink}_TARGET}>
-        #        ${NAME}/modding/${MODULITH_${toLink}}.lib)
+        if(${TYPE} STREQUAL "PUBLIC")
+        MODULITH_COPY_FILE_TO_MODULES(${NAME} $<TARGET_FILE:${MODULITH_${toLink}_TARGET}>
+                ${NAME}/$<TARGET_FILE_NAME:${MODULITH_${toLink}_TARGET}>)
+        MODULITH_COPY_FILE_TO_MODULES(${NAME} $<TARGET_LINKER_FILE:${MODULITH_${toLink}_TARGET}>
+                ${NAME}/modding/$<TARGET_LINKER_FILE_NAME:${MODULITH_${toLink}_TARGET}>)
+        endif()
     endforeach()
-endmacro(MODULITH_LINK_TO_LIBS NAME)
+endmacro(MODULITH_LINK_TO_LIBS NAME TYPE)

@@ -40,7 +40,7 @@ endif()
 
 add_library(common INTERFACE)
 
-target_compile_definitions(common INTERFACE GLM_ENABLE_EXPERIMENTAL)
+target_compile_definitions(common INTERFACE GLM_ENABLE_EXPERIMENTAL SPDLOG_NO_TLS)
 
 add_subdirectory(core)
 add_subdirectory(modules)

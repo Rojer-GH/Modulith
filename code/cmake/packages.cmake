@@ -44,11 +44,20 @@ endfunction()
 MODULITH_CREATE_PACKAGE_FUNCTIONS_AND_INITIALIZE(
         assimp::assimp
         crossguid
-        fmt::fmt-header-only
+        fmt::fmt
         glad::glad
         glfw3
         glm::glm
         imgui::imgui
-        spdlog::spdlog_header_only
+        #OpenGL::OpenGL
+        spdlog::spdlog
         yaml-cpp::yaml-cpp
 )
+
+find_package(OpenGL REQUIRED COMPONENTS OpenGL
+)
+
+message("COOL " ${OPENGL_LIBRARY})
+
+set(MODULITH_OPENGL OpenGL)
+set(MODULITH_OPENGL_TARGET opengl32)
