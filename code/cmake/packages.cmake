@@ -1,29 +1,8 @@
-# Setup packages
+# The configuration of the VCPKG packages
 
-#set(MODULITH_ASSIMP assimp)
-#set(MODULITH_CROSSGUID crossguid)
-#set(MODULITH_FMT fmt)
-#set(MODULITH_GLAD glad)
-#set(MODULITH_GLFW3 glfw3)
-#set(MODULITH_GLM glm)
-#set(MODULITH_IMGUI imgui)
-#set(MODULITH_SPDLOG spdlog)
-set(MODULITH_STB Stb)
-#set(MODULITH_YAML_CPP yaml-cpp)
-
-#find_package(${MODULITH_ASSIMP} REQUIRED)
-#find_package(${MODULITH_CROSSGUID} CONFIG REQUIRED)
-#find_package(${MODULITH_GLAD} REQUIRED)
-#find_package(${MODULITH_GLFW3} REQUIRED)
-#find_package(${MODULITH_GLM} CONFIG REQUIRED)
-#find_package(${MODULITH_IMGUI} CONFIG REQUIRED)
-#find_package(physx REQUIRED)
-#find_package(${MODULITH_SPDLOG} CONFIG REQUIRED)
-find_package(${MODULITH_STB} REQUIRED)
-#find_package(${MODULITH_YAML_CPP} CONFIG REQUIRED)
-#find_package(${MODULITH_FMT} REQUIRED)
-
-function(MODULITH_CREATE_PACKAGE_FUNCTIONS_AND_INITIALIZE)
+# Create two variables for every package, the name to reference and the target name
+# Also "finds" the packages
+function(MODULITH_CREATE_PACKAGE_FUNCTIONS_AND_CONFIGURE)
     foreach(package IN ITEMS ${ARGN})
         if(${package} MATCHES ":")
             string(REPLACE "::" ";" separated "${package}")
@@ -41,7 +20,8 @@ function(MODULITH_CREATE_PACKAGE_FUNCTIONS_AND_INITIALIZE)
     endforeach ()
 endfunction()
 
-MODULITH_CREATE_PACKAGE_FUNCTIONS_AND_INITIALIZE(
+# Load the packages
+MODULITH_CREATE_PACKAGE_FUNCTIONS_AND_CONFIGURE(
         assimp::assimp
         crossguid
         fmt::fmt
@@ -49,15 +29,20 @@ MODULITH_CREATE_PACKAGE_FUNCTIONS_AND_INITIALIZE(
         glfw3
         glm::glm
         imgui::imgui
-        #OpenGL::OpenGL
         spdlog::spdlog
         yaml-cpp::yaml-cpp
 )
 
-find_package(OpenGL REQUIRED COMPONENTS OpenGL
-)
+# Manually create the PhysX variables, as they cannot be found by the upper method
 
-message("COOL " ${OPENGL_LIBRARY})
+include_throw_error(FindPhysX "The FindPhysX file is needed, to load PhysX")
+set(MODULITH_PHYSX PhysX)
+set(MODULITH_PHYSX_TARGET PhysX::PhysX)
 
-set(MODULITH_OPENGL OpenGL)
-set(MODULITH_OPENGL_TARGET opengl32)
+get_target_property(INC ${MODULITH_IMGUI_TARGET} INTERFACE_INCLUDE_DIRECTORIES)
+message("TEST: " ${INC})
+
+# STB has not real target
+
+set(MODULITH_STB Stb)
+find_package(${MODULITH_STB} REQUIRED)

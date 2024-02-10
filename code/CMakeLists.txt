@@ -18,8 +18,10 @@ endmacro(include_throw_error)
 
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
+# Import global values, that are used across many files
 include_throw_error(constants "The constants file was not found. It includes all the \"constants\" that are needed for project setup")
 
+# Contains code to setup the CMAKE and VCPKG environment
 include_throw_error(setup "The setup code takes responsibility for the most basic settings")
 
 project(${MODULITH_PROJECT_NAME}
@@ -27,8 +29,10 @@ project(${MODULITH_PROJECT_NAME}
         DESCRIPTION ${MODULITH_PROJECT_DESCRIPTION}
         LANGUAGES ${MODULITH_PROJECT_LANGUAGES})
 
+# Useful functions that are needed, especially for the configuration of modules
 include_throw_error(functions "A file containing useful functions")
 
+# Preperation of the VCPKG packages
 include_throw_error(packages "The packages-file contains all the external packages that are needed")
 
 find_package(Doxygen)
@@ -38,10 +42,10 @@ else()
     message(STATUS "Doxygen not found, not building docs")
 endif()
 
+# Needed for some defines, don't ask me why we have to do that...
 add_library(common INTERFACE)
 
 target_compile_definitions(common INTERFACE GLM_ENABLE_EXPERIMENTAL SPDLOG_NO_TLS)
 
 add_subdirectory(core)
 add_subdirectory(modules)
-#add_subdirectory(extern)

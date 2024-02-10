@@ -1,7 +1,8 @@
 # Tests CMakeLists
 
-file(GLOB_RECURSE SOURCE_LIST CONFIGURE_DEPENDS "src/**.cpp" "src/**.h")
+# Simple runtime environment that executes some tests
 
+file(GLOB_RECURSE SOURCE_LIST CONFIGURE_DEPENDS "src/**.cpp" "src/**.h")
 add_executable(ModulithEngineTests ${SOURCE_LIST})
 
 target_include_directories(ModulithEngineTests PRIVATE ${MODULITH_VCPKG_INCLUDE})

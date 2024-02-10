@@ -1,3 +1,6 @@
+# Custom Port, because that's how its done here
+# Removes the "IMGUI_API" Macro from binding headers if they are needed. The client then needs to copy the corresponding source file into their project.
+
 cmake_minimum_required(VERSION 3.8)
 project(imgui CXX)
 

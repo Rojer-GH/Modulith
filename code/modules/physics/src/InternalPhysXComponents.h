@@ -8,7 +8,7 @@
 #include "PhysicsModule.h"
 #include "PxPhysicsAPI.h"
 #include "PxScene.h"
-#include "../../../extern/PhysX/physx/include/PxActor.h"
+#include "PxActor.h"
 
 using namespace physx;
 
